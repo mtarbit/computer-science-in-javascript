@@ -49,21 +49,23 @@ function merge(left, right){
  * @return {Array} The sorted array.
  */
 function mergeSort(items){
-    if (items.length == 1) {
+    var len = items.length;
+    if (len == 1) {
         return items;
     }
 
     var work = [];
-    for (var i=0, len=items.length; i < len; i++){
+    for (var i=0; i < len; i++){
         work.push([items[i]]);
     }
-    work.push([]);  //in case of odd number of items
 
-    for (var lim=len; lim > 1; lim = (lim+1)/2){
-        for (var j=0,k=0; k < lim; j++, k+=2){
-            work[j] = merge(work[k], work[k+1]);
+    for (var k=1; k < len; k*=2) {
+        for (var i=0; i < len; i+=(k*2)) {
+            var j = i + k;
+            if (work[j]) {
+                work[i] = merge(work[i], work[j]);
+            }
         }
-        work[j] = [];  //in case of odd number of items
     }
 
     return work[0];
